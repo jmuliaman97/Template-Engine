@@ -10,13 +10,6 @@ const { promisify } = require('util')
 const rf = promisify(readFile)
 // writeFileSync
 const wf = promisify(writeFile)
-let teamNum=0
-
-let teamNumberQuestion = {
-  type: 'input',
-  name: 'teamNumber',
-  message: 'How many team members are there?'
-}
 
 let nameQuestion = {
   type: 'input',
@@ -61,8 +54,10 @@ let internQuestion = {
   message: 'What school do you attend?'
 }
 
+// make an empty array for all employees
 let employeeArr = []
 
+// function to start the question
 async function startQuestions() {
   // ask the manager the initial questions
   const initPrompt = await prompt([nameQuestion, idQuestion, emailQuestion, managerQuestion])
@@ -77,6 +72,7 @@ async function startQuestions() {
     .catch(err => console.log(err))
 }
 
+// make function to resume the question
 function resume() {
   prompt([{
     type: 'list',
@@ -84,6 +80,7 @@ function resume() {
     message: 'Whould you like to add an Employee?',
     choices:['Yes', 'No']
   }])
+    // if choice is 'yes' go to the next question, if choice is 'no' create HTML page
     .then((answer)=>{
       if(answer.resume === 'Yes'){
         askMemberQuestions()
@@ -94,18 +91,20 @@ function resume() {
     })
 }
 
-
+// make a function to ask members
 async function askMemberQuestions() {
   
     let currentName
     let currentRole
 
+    // ask member for name and role
     const memberPrompt = await prompt([nameQuestion, roleQuestion])
       .then(({ name, role }) => {
         currentName = name
         currentRole = role
       })
 
+    // if current role is engineer
     if (currentRole === 'Engineer') {
       // ask the engineers the related questions
       const engineerPrompt = await prompt([idQuestion, emailQuestion, engineerQuestion])
@@ -114,18 +113,20 @@ async function askMemberQuestions() {
           employeeArr.push(engineerMember.htmlcard())
           resume()
         })
+      // else if current role is intern
     } else {
       // ask the interns the related questions
       const internPrompt = await prompt([idQuestion, emailQuestion, internQuestion])
         .then(({ id, email, school }) => {
-        let internMember = new Intern(currentName, id, email, school)
-        employeeArr.push(internMember.htmlcard())
-        resume()
+          let internMember = new Intern(currentName, id, email, school)
+          employeeArr.push(internMember.htmlcard())
+          resume()
         })
     }
 
 }
 
+// make function to create the HTML page
 async function createHTML(arr) {
   const html = `
   <!DOCTYPE html>
@@ -155,7 +156,8 @@ async function createHTML(arr) {
     integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
   </html>`
 
-  wf('./output/index.html', html, function(err){
+  // write file to team.html
+  wf('./output/team.html', html, function(err){
   if(err)throw err
   console.log("done")
   })
