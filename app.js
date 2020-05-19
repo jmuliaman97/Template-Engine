@@ -155,7 +155,7 @@ async function createHTML(arr) {
     integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
   </html>`
 
-  readFile("index.html", html, function(err){
+  readFile('./output/index.html', html, function(err){
   if(err)throw err
   console.log("done")
   })
