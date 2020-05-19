@@ -20,6 +20,7 @@
   "dependencies": {
     "handlebars": "^4.7.6",
     "inquirer": "^7.1.0",
-    "jest": "^26.0.1"
+    "jest": "^26.0.1",
+    "test": "^0.6.0"
   }
 }
