@@ -65,6 +65,8 @@ async function startQuestions() {
 
       let lead = new Manager(results.name,results.id, results.email, results.officeNumber)
       employeeArr.push(lead.htmlcard())
+      console.log(employeeArr);
+      
       teamNum=results.teamNumber  
 
       resume()
@@ -144,7 +146,7 @@ async function createHTML(arr) {
         <h1 class="display-4">Employee Summary</h1>
       </nav>
       <div class=" jumbotron">
-        <div class="btn-lg row container">${employeeCardsJoined}</div>
+        <div class="btn-lg row container">${arr}</div>
       </div>
     </div>
   </body>
@@ -165,3 +167,4 @@ async function createHTML(arr) {
 }
 
 startQuestions()
+
